@@ -4,5 +4,16 @@
     "test":"verify.json",
     "catch_id": 0,
     "col_to_split": ["locale", "location"],
-    "col_to_expand": ["sites"]
+    "col_to_expand": ["sites"],
+    "categorical_columns": ["browser", "gender", "os", "locale_lang",
+       "locale_country", "location_country", "location_city", "site"],
+    "date_features": ["dayofweek", "dayofyear", "weekofyear", "monthofyear", "year", "dayofmonth"],
+    "time_features": ["hour", "minute"],
+    "exclude_dates":{
+
+   "exclude_before": "2016-01-15",
+   "exclude_after": "2017-08-16"
+}    
+
+
 }
