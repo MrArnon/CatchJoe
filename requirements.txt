@@ -1,0 +1,6 @@
+json
+pandas
+numpy
+plotly
+jupyter
+jupyterlab

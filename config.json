@@ -1,0 +1,8 @@
+{
+    "source_data_path" : "./data",
+    "train": "dataset.json",
+    "test":"verify.json",
+    "catch_id": 0,
+    "col_to_split": ["locale", "location"],
+    "col_to_expand": ["sites"]
+}
