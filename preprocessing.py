@@ -1,4 +1,5 @@
 import json
+import logging
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -114,6 +115,11 @@ def main():
     with(open(path_config, 'r')) as file:
         config = json.load(file)
 
+    Path(config['log_path']).mkdir(parents=True, exist_ok=True)
+    logging.basicConfig(filename=Path(config['log_path']) / Path('preprocess.log'),
+                        level=logging.DEBUG, format='%(asctime)s %(message)s')
+    logging.info("Preprocess config loaded")
+
     for file in ['train', 'test']:
         df = read_df(Path(config['data_path']), Path(config['input'][file]), id_col=config['features']['target_col'])
 
@@ -155,6 +161,7 @@ def main():
                 .apply(lambda x: 0 if x == config['features']['catch_id'] else 1)
 
         df.to_csv(Path(config['data_path']) / Path(config['output'][file]), index=True)
+        logging.info(f"Preprocessed data saved {Path(config['data_path']) / Path(config['output'][file])}")
 
 
 if __name__ == '__main__':
