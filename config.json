@@ -1,6 +1,7 @@
 {
     "data_path" : "./data",
     "metrics_path": "./metrics",
+    "model_path": "./model",
     "input": { 
 
     "train": "dataset.json",
