@@ -4,3 +4,4 @@ numpy
 plotly
 jupyter
 jupyterlab
+sklearn

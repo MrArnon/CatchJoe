@@ -1,8 +1,20 @@
 {
-    "source_data_path" : "./data",
+    "data_path" : "./data",
+    "metrics_path": "./metrics",
+    "input": { 
+
     "train": "dataset.json",
-    "test":"verify.json",
-    "catch_id": 0,
+    "test": "verify.json"
+},
+    
+    "output": {
+    "train": "prepared_dataset.csv",
+    "test": "prepared_verify.csv",
+    "prediction": "predicted_verify.csv"
+},
+   "features":{ 
+   "catch_id": 0,
+    "target_col":"user_id",
     "col_to_split": ["locale", "location"],
     "col_to_expand": ["sites"],
     "categorical_columns": ["browser", "gender", "os", "locale_lang",
@@ -13,6 +25,8 @@
 
    "exclude_before": "2016-01-15",
    "exclude_after": "2017-08-16"
+},
+   "folds": 4
 }    
 
 
