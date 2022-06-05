@@ -29,6 +29,7 @@ conda activate catch_joe
 python pipeline.py
 ```
 The predicted result would be stored by path: **./data/predicted_verify.csv** or **./data/predicted_verify.json** 
+
 Afer changes to fix codestyle run
 ```bash
 make codestyle
@@ -36,6 +37,9 @@ make codestyle
 
 # Structure
 data_analysis.ipynb - data analysis and conclusions for the train data
+
 preprocessing.py - module to preprocess datasets
+
 pipeline.py - script to run pipeline
+
 config.json - configuration file
