@@ -41,7 +41,7 @@ def expand_json_col_to_rows(df, col_to_expand):
     return df
 
 
-def convert_catergorical_cols(df, categorical_cols):
+def convert_categorical_cols(df, categorical_cols):
 
     label_encoder = LabelEncoder()
     for col in categorical_cols:
@@ -51,7 +51,7 @@ def convert_catergorical_cols(df, categorical_cols):
     return df
 
 
-def exctract_date_features(df, date_features, date_col='date'):
+def extract_date_features(df, date_features, date_col='date'):
 
     for col in date_features:
         if col == 'dayofweek':
@@ -71,7 +71,7 @@ def exctract_date_features(df, date_features, date_col='date'):
     return df
 
 
-def exctract_time_features(df, time_features, time_col='time', format_time='%H:%M:%S'):
+def extract_time_features(df, time_features, time_col='time', format_time='%H:%M:%S'):
 
     for col in time_features:
         if col == 'hour':
@@ -100,38 +100,39 @@ def main():
     with(open(path_config, 'r')) as file:
         config = json.load(file)
 
-    df = read_df(Path(config['source_data_path']), Path(config['train']))
-    
-    df = exclude_periods(df, config['exclude_dates']['exclude_before'], config['exclude_dates']['exclude_after'])
-    
-    for col in config['col_to_split']:
-        if col == 'locale':
-            df = split_col_by_delimiter(df=df,
-                                        col_to_split=col,
-                                        left_postfix='lang',
-                                        right_postfix='country',
-                                        delimiter='-',
-                                        replace_sym='_'
-                                        )
-        if col == 'location':
-            df = split_col_by_delimiter(df=df,
-                                        col_to_split=col,
-                                        left_postfix='country',
-                                        right_postfix='city',
-                                        delimiter='/',
-                                        replace_sym=None
-                                        )
+    for path in [config['train'], config['test']]:
+        df = read_df(Path(config['source_data_path']), Path(config['train']))
 
-    for col in config['col_to_expand']:
-        df = expand_json_col_to_rows(df=df, col_to_expand=col)
+        df = exclude_periods(df, config['exclude_dates']['exclude_before'], config['exclude_dates']['exclude_after'])
 
-    df = convert_catergorical_cols(df, config['categorical_columns'])
+        for col in config['col_to_split']:
+            if col == 'locale':
+                df = split_col_by_delimiter(df=df,
+                                            col_to_split=col,
+                                            left_postfix='lang',
+                                            right_postfix='country',
+                                            delimiter='-',
+                                            replace_sym='_'
+                                            )
+            if col == 'location':
+                df = split_col_by_delimiter(df=df,
+                                            col_to_split=col,
+                                            left_postfix='country',
+                                            right_postfix='city',
+                                            delimiter='/',
+                                            replace_sym=None
+                                            )
 
-    df = exctract_date_features(df, config['date_features'])
-    
-    df = exctract_time_features(df, config['time_features'])
+        for col in config['col_to_expand']:
+            df = expand_json_col_to_rows(df=df, col_to_expand=col)
 
-    df.to_csv(Path(config['source_data_path']) / Path('preprared_df.csv'), index=False)
+        df = convert_categorical_cols(df, config['categorical_columns'])
+
+        df = extract_date_features(df, config['date_features'])
+
+        df = extract_time_features(df, config['time_features'])
+
+        df.to_csv(Path(config['source_data_path']) / Path(f'preprared_{path.replace(".json","")}.csv'), index=False)
 
 
 if __name__ == '__main__':
