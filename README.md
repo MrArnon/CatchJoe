@@ -63,3 +63,10 @@ preprocessing.py - module to preprocess datasets
 pipeline.py - script to run a pipeline
 
 config.json - configuration file
+
+# Docker
+```bash
+docker build -t catch_joe .
+docker run -ti --rm -v /Users/maksimpolakov/CatchJoe:/home/catchjoe/app catch_joe python pipeline.py
+```
+

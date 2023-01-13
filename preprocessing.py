@@ -45,7 +45,7 @@ def expand_json_col_to_rows(df, col_to_expand):
     df.drop(columns=[col_to_expand], inplace=True)
 
     for key in df_expand['value'][0].keys():
-        if df.dtypes[key] not in [np.int, np.float, np.float64]:
+        if df.dtypes[key] not in [int, float, np.float64]:
             try:
                 df[key] = df[key].fillna(df[key].mode().iloc[0])
             except IndexError:
